@@ -17,23 +17,23 @@ st.title("💡 CSV数据分析智能工具")
 
 with st.sidebar:
     openai_api_key = st.text_input("请输入OpenAI API密钥：", type="password")
-    st.markdown("[获取OpenAI API key](https://platform.openai.com/account/api-keys)")
+    st.markdown("[这里可以可以获取OpenAI API 密钥嗷](https://platform.openai.com/account/api-keys)")
 
-data = st.file_uploader("上传你的数据文件（CSV格式）：", type="csv")
+data = st.file_uploader("请主人上传文件嗷（CSV格式）：", type="csv")
 if data:
     st.session_state["df"] = pd.read_csv(data)
     with st.expander("原始数据"):
         st.dataframe(st.session_state["df"])
 
-query = st.text_area("请输入你关于以上表格的问题，或数据提取请求，或可视化要求（支持散点图、折线图、条形图）：")
+query = st.text_area("请告诉我你的需求嗷~数据提取还是可视化图表📊?（支持散点图、折线图、条形图）：")
 button = st.button("生成回答")
 
 if button and not openai_api_key:
-    st.info("请输入你的OpenAI API密钥")
+    st.info("需要先输入你的OpenAI API密钥嗷")
 if button and "df" not in st.session_state:
     st.info("请先上传数据文件")
 if button and openai_api_key and "df" in st.session_state:
-    with st.spinner("AI正在思考中，请稍等..."):
+    with st.spinner("我在思考嗷，请稍等..."):
         response_dict = dataframe_agent(openai_api_key, st.session_state["df"], query)
         if "answer" in response_dict:
             st.write(response_dict["answer"])
